@@ -1,0 +1,58 @@
+{
+  "videos": [
+    {
+      "id": "dQw4w9WgXcQ",
+      "title": "JavaScript Basics: Variables and Data Types",
+      "date": "2024-02-12",
+      "description": "Learn about JavaScript variables, data types, and how to work with them effectively."
+    },
+    {
+      "id": "dQw4w9WgXcQ",
+      "title": "Building Your First React App",
+      "date": "2024-02-09",
+      "description": "Step-by-step tutorial on creating a React application from scratch."
+    },
+    {
+      "id": "dQw4w9WgXcQ",
+      "title": "CSS Flexbox Complete Guide",
+      "date": "2024-02-06",
+      "description": "Master CSS Flexbox with this comprehensive tutorial covering all flexbox properties."
+    },
+    {
+      "id": "dQw4w9WgXcQ",
+      "title": "Git and GitHub for Beginners",
+      "date": "2024-02-03",
+      "description": "Everything you need to know about version control with Git and GitHub."
+    },
+    {
+      "id": "dQw4w9WgXcQ",
+      "title": "Responsive Web Design Best Practices",
+      "date": "2024-01-30",
+      "description": "Learn how to create websites that look great on all devices."
+    },
+    {
+      "id": "dQw4w9WgXcQ",
+      "title": "Node.js and Express Tutorial",
+      "date": "2024-01-27",
+      "description": "Build a backend server with Node.js and Express framework."
+    },
+    {
+      "id": "dQw4w9WgXcQ",
+      "title": "TypeScript for JavaScript Developers",
+      "date": "2024-01-24",
+      "description": "Introduction to TypeScript and how it improves your JavaScript development."
+    },
+    {
+      "id": "dQw4w9WgXcQ",
+      "title": "REST API Design Principles",
+      "date": "2024-01-21",
+      "description": "Learn best practices for designing RESTful APIs that are scalable and maintainable."
+    },
+    {
+      "id": "dQw4w9WgXcQ",
+      "title": "Modern JavaScript ES6+ Features",
+      "date": "2024-01-18",
+      "description": "Explore the latest JavaScript features including arrow functions, destructuring, and more."
+    }
+  ]
+}

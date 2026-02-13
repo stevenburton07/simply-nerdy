@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Simply Nerdy Blog - Articles about tech, programming, and development">
+    <title>Blog | Simply Nerdy</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="site-header">
+        <nav class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html">Simply Nerdy</a>
+            </div>
+            <button class="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="https://youtube.com/@SimplyNerdy" target="_blank" class="btn-subscribe">Subscribe</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Blog Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1>Blog</h1>
+            <p class="page-subtitle">Insights, tutorials, and thoughts on tech and development</p>
+        </div>
+    </section>
+
+    <!-- Blog Filters -->
+    <section class="blog-filters">
+        <div class="container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-category="all">All Posts</button>
+                <button class="filter-btn" data-category="Web Dev">Web Dev</button>
+                <button class="filter-btn" data-category="JavaScript">JavaScript</button>
+                <button class="filter-btn" data-category="Tutorial">Tutorials</button>
+                <button class="filter-btn" data-category="Career">Career</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Posts Grid -->
+    <section class="section blog-archive">
+        <div class="container">
+            <div id="blog-posts" class="blog-grid">
+                <!-- Blog posts will be loaded dynamically via JavaScript -->
+            </div>
+            <div id="no-posts" class="no-posts" style="display: none;">
+                <p>No posts found in this category.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Simply Nerdy</h3>
+                    <p>Exploring tech, programming, and all things nerdy</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="https://youtube.com/@SimplyNerdy" target="_blank">YouTube</a></li>
+                        <li><a href="https://github.com" target="_blank">GitHub</a></li>
+                        <li><a href="https://twitter.com" target="_blank">Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Simply Nerdy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/utils.js"></script>
+    <script src="js/blog-loader.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

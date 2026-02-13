@@ -1,0 +1,76 @@
+{
+  "posts": [
+    {
+      "id": "001",
+      "title": "Getting Started with JavaScript: A Beginner's Guide",
+      "slug": "getting-started-with-javascript",
+      "date": "2024-02-10",
+      "category": "JavaScript",
+      "excerpt": "Learn the fundamentals of JavaScript, from variables and functions to DOM manipulation. Perfect for beginners starting their web development journey.",
+      "content": "<p>JavaScript is the programming language of the web, and learning it opens up endless possibilities for creating interactive websites and applications.</p><h2>Why Learn JavaScript?</h2><p>JavaScript is essential for web development. It runs in every browser, powers countless websites, and is used for both frontend and backend development with Node.js.</p><h2>Basic Concepts</h2><p>Let's start with the fundamentals:</p><h3>Variables</h3><p>Variables store data that you can use throughout your program. In modern JavaScript, we use <code>let</code> and <code>const</code>:</p><pre><code>let name = 'Simply Nerdy';\nconst pi = 3.14159;</code></pre><h3>Functions</h3><p>Functions are reusable blocks of code that perform specific tasks:</p><pre><code>function greet(name) {\n  return `Hello, ${name}!`;\n}\n\nconsole.log(greet('World'));</code></pre><h2>Next Steps</h2><p>Once you've mastered the basics, explore DOM manipulation, asynchronous programming, and modern frameworks like React.</p>",
+      "tags": ["javascript", "web-dev", "tutorial", "beginner"],
+      "author": "Simply Nerdy",
+      "image": "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=800&h=400&fit=crop"
+    },
+    {
+      "id": "002",
+      "title": "Understanding CSS Grid: Modern Layout Made Easy",
+      "slug": "understanding-css-grid",
+      "date": "2024-02-08",
+      "category": "Web Dev",
+      "excerpt": "CSS Grid revolutionized web layouts. Learn how to create complex, responsive designs with this powerful layout system.",
+      "content": "<p>CSS Grid is a two-dimensional layout system that gives you complete control over rows and columns in your web layouts.</p><h2>Why CSS Grid?</h2><p>Before CSS Grid, creating complex layouts required floats, positioning hacks, or flexbox workarounds. Grid makes it simple and intuitive.</p><h2>Basic Grid Structure</h2><p>Here's a simple grid container:</p><pre><code>.container {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 20px;\n}</code></pre><h2>Responsive Grids</h2><p>Make your grids responsive with media queries or the <code>auto-fit</code> and <code>minmax</code> functions:</p><pre><code>.container {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n  gap: 20px;\n}</code></pre><h2>Grid Areas</h2><p>Name your grid areas for even more control over your layout. This is especially useful for creating complex page structures.</p>",
+      "tags": ["css", "web-dev", "layout", "tutorial"],
+      "author": "Simply Nerdy",
+      "image": "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?w=800&h=400&fit=crop"
+    },
+    {
+      "id": "003",
+      "title": "10 VS Code Extensions Every Developer Should Use",
+      "slug": "vscode-extensions-developers",
+      "date": "2024-02-05",
+      "category": "Tutorial",
+      "excerpt": "Boost your productivity with these essential VS Code extensions. From code formatting to Git integration, these tools will level up your workflow.",
+      "content": "<p>Visual Studio Code is one of the most popular code editors, and its extension marketplace makes it even more powerful.</p><h2>Essential Extensions</h2><h3>1. ESLint</h3><p>Catch JavaScript errors before runtime and enforce coding standards across your team.</p><h3>2. Prettier</h3><p>Automatically format your code to maintain consistent style across your project.</p><h3>3. GitLens</h3><p>Supercharge your Git workflow with inline blame annotations and repository insights.</p><h3>4. Live Server</h3><p>Launch a local development server with live reload for static and dynamic pages.</p><h3>5. Auto Rename Tag</h3><p>Automatically rename paired HTML/XML tags when you edit one.</p><h2>Productivity Boosters</h2><p>Beyond the essentials, consider extensions for your specific workflow: language-specific linters, theme customization, and AI-powered code completion tools.</p>",
+      "tags": ["vscode", "productivity", "tools", "tutorial"],
+      "author": "Simply Nerdy",
+      "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop"
+    },
+    {
+      "id": "004",
+      "title": "Async/Await vs Promises: Which Should You Use?",
+      "slug": "async-await-vs-promises",
+      "date": "2024-02-01",
+      "category": "JavaScript",
+      "excerpt": "Understanding asynchronous JavaScript is crucial for modern web development. Let's compare Promises and async/await syntax.",
+      "content": "<p>Asynchronous programming is essential in JavaScript for handling operations like API calls, file reading, and timers without blocking the main thread.</p><h2>Promises</h2><p>Promises represent the eventual completion or failure of an asynchronous operation:</p><pre><code>fetch('https://api.example.com/data')\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error(error));</code></pre><h2>Async/Await</h2><p>Async/await is syntactic sugar over Promises, making asynchronous code look and behave more like synchronous code:</p><pre><code>async function fetchData() {\n  try {\n    const response = await fetch('https://api.example.com/data');\n    const data = await response.json();\n    console.log(data);\n  } catch (error) {\n    console.error(error);\n  }\n}</code></pre><h2>Which to Use?</h2><p>Use async/await for cleaner, more readable code, especially when dealing with multiple asynchronous operations. However, Promises are still useful for parallel operations with <code>Promise.all()</code>.</p>",
+      "tags": ["javascript", "async", "promises", "tutorial"],
+      "author": "Simply Nerdy",
+      "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop"
+    },
+    {
+      "id": "005",
+      "title": "How to Break Into Tech: A Complete Career Guide",
+      "slug": "break-into-tech-career-guide",
+      "date": "2024-01-28",
+      "category": "Career",
+      "excerpt": "Want to start a career in tech? Here's everything you need to know about learning to code, building a portfolio, and landing your first job.",
+      "content": "<p>Breaking into tech can seem daunting, but with the right approach and dedication, it's absolutely achievable.</p><h2>Choose Your Path</h2><p>Tech offers many career paths: web development, mobile development, data science, DevOps, and more. Research each to find what interests you.</p><h2>Learn the Fundamentals</h2><p>Start with the basics of programming. For web development, that means HTML, CSS, and JavaScript. Use free resources like freeCodeCamp, The Odin Project, or MDN Web Docs.</p><h2>Build Projects</h2><p>Theory is important, but employers want to see what you can build. Create a portfolio of 3-5 projects that demonstrate your skills:</p><ul><li>A personal website</li><li>A web application with a database</li><li>An API integration project</li><li>A mobile or responsive design</li></ul><h2>Network and Apply</h2><p>Connect with other developers on Twitter, LinkedIn, and at local meetups. Apply for junior positions, internships, and apprenticeships. Don't be discouraged by rejection—it's part of the process.</p>",
+      "tags": ["career", "learning", "beginners"],
+      "author": "Simply Nerdy",
+      "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=400&fit=crop"
+    },
+    {
+      "id": "006",
+      "title": "Introduction to React Hooks: useState and useEffect",
+      "slug": "intro-to-react-hooks",
+      "date": "2024-01-25",
+      "category": "JavaScript",
+      "excerpt": "React Hooks changed how we write React components. Learn the two most important hooks: useState and useEffect.",
+      "content": "<p>React Hooks, introduced in React 16.8, allow you to use state and other React features in functional components.</p><h2>useState Hook</h2><p>useState lets you add state to functional components:</p><pre><code>import { useState } from 'react';\n\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  \n  return (\n    &lt;div&gt;\n      &lt;p&gt;Count: {count}&lt;/p&gt;\n      &lt;button onClick={() => setCount(count + 1)}&gt;\n        Increment\n      &lt;/button&gt;\n    &lt;/div&gt;\n  );\n}</code></pre><h2>useEffect Hook</h2><p>useEffect lets you perform side effects in functional components:</p><pre><code>import { useEffect, useState } from 'react';\n\nfunction UserProfile({ userId }) {\n  const [user, setUser] = useState(null);\n  \n  useEffect(() => {\n    fetch(`/api/users/${userId}`)\n      .then(res => res.json())\n      .then(data => setUser(data));\n  }, [userId]);\n  \n  return user ? &lt;div&gt;{user.name}&lt;/div&gt; : &lt;div&gt;Loading...&lt;/div&gt;;\n}</code></pre><h2>Best Practices</h2><p>Always include dependencies in your useEffect array, and remember that useEffect runs after every render by default.</p>",
+      "tags": ["react", "javascript", "hooks", "tutorial"],
+      "author": "Simply Nerdy",
+      "image": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=400&fit=crop"
+    }
+  ]
+}

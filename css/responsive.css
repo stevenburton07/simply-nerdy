@@ -1,0 +1,260 @@
+/* ================================
+   Simply Nerdy - Responsive Styles
+   Mobile-First Breakpoints
+   ================================ */
+
+/* ================================
+   Mobile Styles (Default - up to 640px)
+   ================================ */
+
+/* Mobile navigation */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background-color: var(--bg-primary);
+        flex-direction: column;
+        padding: var(--spacing-xl);
+        gap: var(--spacing-md);
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-120%);
+        opacity: 0;
+        transition: transform var(--transition-base), opacity var(--transition-base);
+        z-index: 99;
+    }
+
+    .nav-links.active {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .nav-links a {
+        padding: var(--spacing-md) 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .nav-links li:last-child a {
+        border-bottom: none;
+    }
+}
+
+/* Mobile hero */
+@media (max-width: 640px) {
+    .hero h1 {
+        font-size: var(--text-3xl);
+    }
+
+    .hero-subtitle {
+        font-size: var(--text-lg);
+    }
+
+    .hero-cta {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .hero-cta .btn {
+        width: 100%;
+    }
+}
+
+/* Mobile grids */
+@media (max-width: 640px) {
+    .video-grid,
+    .blog-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .topics-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mobile about page */
+@media (max-width: 768px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-sidebar {
+        position: static;
+    }
+}
+
+/* Mobile blog post */
+@media (max-width: 968px) {
+    .post-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .post-sidebar {
+        position: static;
+    }
+
+    .post-header h1 {
+        font-size: var(--text-3xl);
+    }
+}
+
+/* Mobile footer */
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xl);
+    }
+}
+
+/* Mobile page hero */
+@media (max-width: 640px) {
+    .page-hero h1 {
+        font-size: var(--text-3xl);
+    }
+
+    .page-subtitle {
+        font-size: var(--text-lg);
+    }
+}
+
+/* Mobile filter buttons */
+@media (max-width: 640px) {
+    .filter-buttons {
+        justify-content: flex-start;
+    }
+
+    .filter-btn {
+        font-size: var(--text-sm);
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+}
+
+/* ================================
+   Tablet Styles (640px - 768px)
+   ================================ */
+
+@media (min-width: 640px) and (max-width: 768px) {
+    .video-grid,
+    .blog-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ================================
+   Desktop Styles (1024px+)
+   ================================ */
+
+@media (min-width: 1024px) {
+    .hero h1 {
+        font-size: var(--text-5xl);
+    }
+
+    .video-grid,
+    .blog-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* ================================
+   Large Desktop (1440px+)
+   ================================ */
+
+@media (min-width: 1440px) {
+    .container {
+        max-width: 1400px;
+    }
+
+    .hero h1 {
+        font-size: 3.5rem;
+    }
+}
+
+/* ================================
+   Typography Scaling
+   ================================ */
+
+@media (max-width: 640px) {
+    :root {
+        --text-5xl: 2rem;         /* 32px on mobile */
+        --text-4xl: 1.75rem;      /* 28px on mobile */
+        --text-3xl: 1.5rem;       /* 24px on mobile */
+        --text-2xl: 1.25rem;      /* 20px on mobile */
+    }
+}
+
+/* ================================
+   Touch-Friendly Adjustments
+   ================================ */
+
+@media (hover: none) and (pointer: coarse) {
+    /* Increase touch targets on touch devices */
+    .btn,
+    .filter-btn,
+    .nav-links a {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Disable hover effects on touch devices */
+    .card:hover,
+    .video-card:hover,
+    .post-card:hover {
+        transform: none;
+        box-shadow: var(--shadow-md);
+    }
+}
+
+/* ================================
+   Print Styles
+   ================================ */
+
+@media print {
+    .site-header,
+    .site-footer,
+    .hamburger,
+    .hero-cta,
+    .btn,
+    .cta-box,
+    .filter-buttons {
+        display: none;
+    }
+
+    body {
+        font-size: 12pt;
+        line-height: 1.5;
+        color: black;
+    }
+
+    a {
+        color: black;
+        text-decoration: underline;
+    }
+
+    .post-content {
+        font-size: 12pt;
+    }
+}
+
+/* ================================
+   Accessibility - Reduced Motion
+   ================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}

@@ -23,21 +23,55 @@ async function initYouTubeGallery() {
 }
 
 /**
- * Load videos from JSON file
+ * Load videos from YouTube RSS feed
  */
 async function loadVideos() {
     try {
-        const response = await fetch('data/videos.json');
-        if (!response.ok) throw new Error('Failed to fetch videos');
+        // Fetch from YouTube RSS feed
+        const channelId = 'UC6H7mlCEADjPd-ivSQt8ozg';
+        const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
 
-        const data = await response.json();
-        videos = data.videos || [];
+        const response = await fetch(rssUrl);
+        if (!response.ok) throw new Error('Failed to fetch videos from YouTube');
 
-        // Sort by date (newest first)
-        videos.sort((a, b) => new Date(b.date) - new Date(a.date));
+        const xmlText = await response.text();
+
+        // Parse XML
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+
+        // Extract video data from RSS feed
+        const entries = xmlDoc.querySelectorAll('entry');
+        videos = Array.from(entries).map(entry => {
+            const videoId = entry.querySelector('videoId')?.textContent;
+            const title = entry.querySelector('title')?.textContent;
+            const published = entry.querySelector('published')?.textContent;
+
+            return {
+                id: videoId,
+                title: title,
+                date: published,
+                description: ''
+            };
+        });
+
+        // Already sorted by date (newest first) from RSS feed
     } catch (error) {
-        console.error('Error loading videos:', error);
-        throw error;
+        console.error('Error loading videos from YouTube:', error);
+
+        // Fallback to JSON file if RSS fails
+        try {
+            console.log('Attempting to load from backup JSON file...');
+            const fallbackResponse = await fetch('data/videos.json');
+            if (fallbackResponse.ok) {
+                const data = await fallbackResponse.json();
+                videos = data.videos || [];
+                videos.sort((a, b) => new Date(b.date) - new Date(a.date));
+            }
+        } catch (fallbackError) {
+            console.error('Fallback also failed:', fallbackError);
+            throw error;
+        }
     }
 }
 

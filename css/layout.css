@@ -28,19 +28,15 @@
 .nav-brand a {
     display: flex;
     align-items: center;
-    gap: var(--spacing-md);
-    font-size: var(--text-2xl);
-    font-weight: var(--font-bold);
-    color: var(--primary);
-    transition: color var(--transition-fast);
+    transition: opacity var(--transition-fast);
 }
 
 .nav-brand a:hover {
-    color: var(--primary-dark);
+    opacity: 0.8;
 }
 
 .nav-brand .logo {
-    height: 40px;
+    height: 28px;
     width: auto;
     display: block;
 }

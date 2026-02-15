@@ -23,7 +23,7 @@
 
 .btn-primary {
     background-color: var(--primary);
-    color: white;
+    color: #F2F2F2;
 }
 
 .btn-primary:hover {
@@ -45,7 +45,7 @@
 
 .btn-subscribe {
     background-color: var(--primary);
-    color: white;
+    color: #F2F2F2;
     padding: var(--spacing-sm) var(--spacing-lg);
     border-radius: var(--radius-md);
     font-weight: var(--font-semibold);
@@ -302,7 +302,7 @@
 
 .badge-primary {
     background-color: var(--primary);
-    color: white;
+    color: #F2F2F2;
 }
 
 .tag {
@@ -343,7 +343,7 @@
 
 .filter-btn.active {
     background-color: var(--primary);
-    color: white;
+    color: #F2F2F2;
     border-color: var(--primary);
 }
 
@@ -353,7 +353,7 @@
 
 .cta-box {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    color: white;
+    color: #F2F2F2;
     padding: var(--spacing-2xl);
     border-radius: var(--radius-lg);
     text-align: center;
@@ -361,12 +361,12 @@
 }
 
 .cta-box h3 {
-    color: white;
+    color: #F2F2F2;
     margin-bottom: var(--spacing-md);
 }
 
 .cta-box p {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(242, 242, 242, 0.9);
     margin-bottom: var(--spacing-xl);
 }
 

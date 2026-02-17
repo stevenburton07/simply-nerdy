@@ -1,4 +1,30 @@
 {
+  "_instructions": {
+    "description": "This file contains all blog posts for the Simply Nerdy website.",
+    "howToAdd": "To add a new blog post, copy the template below and add it to the 'posts' array. Posts are displayed in reverse chronological order (newest first).",
+    "template": {
+      "id": "unique-id (e.g., '007', '008', etc.)",
+      "title": "Your Blog Post Title",
+      "slug": "url-friendly-slug",
+      "date": "YYYY-MM-DD format (e.g., '2024-03-15')",
+      "category": "One of: Games, Books, Movies, TV Shows",
+      "excerpt": "A brief 1-2 sentence summary that appears on blog cards",
+      "content": "Full HTML content with <p> paragraphs, <h4> headings, <ul><li> lists, <em> emphasis, <strong> bold, etc.",
+      "tags": ["tag1", "tag2", "tag3", "tag4"],
+      "author": "Simply Nerdy",
+      "image": "URL to featured image (use Unsplash or upload to /images/)"
+    },
+    "contentTips": [
+      "Use <h4> for main section headings within the article",
+      "Use <p> tags for paragraphs",
+      "Use <ul><li> for bullet lists",
+      "Use <em> for italic text and <strong> for bold",
+      "Keep the content engaging and conversational",
+      "Images should be landscape orientation, ideally 800x400px or similar ratio"
+    ],
+    "categories": ["Games", "Books", "Movies", "TV Shows"],
+    "tagGuidelines": "Use 3-5 relevant tags per post. Tags help with search and discovery."
+  },
   "posts": [
     {
       "id": "001",

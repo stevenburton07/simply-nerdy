@@ -28,7 +28,7 @@ async function initBlog() {
         }
     } catch (error) {
         console.error('Error initializing blog:', error);
-        showError('Failed to load blog posts. Please try again later.');
+        showError('Failed to load articles. Please try again later.');
     }
 }
 
@@ -61,7 +61,7 @@ function renderBlogPreview() {
     const latestPosts = blogPosts.slice(0, 3);
 
     if (latestPosts.length === 0) {
-        container.innerHTML = '<p class="loading">No blog posts available yet.</p>';
+        container.innerHTML = '<p class="loading">No articles available yet.</p>';
         return;
     }
 
@@ -196,14 +196,14 @@ function renderBlogPost() {
     const postId = urlParams.get('id');
 
     if (!postId) {
-        showError('Blog post not found.');
+        showError('Article not found.');
         return;
     }
 
     const post = blogPosts.find(p => p.id === postId);
 
     if (!post) {
-        showError('Blog post not found.');
+        showError('Article not found.');
         return;
     }
 

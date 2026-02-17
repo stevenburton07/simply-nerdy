@@ -43,6 +43,17 @@
     color: var(--primary);
 }
 
+.btn-tertiary {
+    background-color: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+}
+
+.btn-tertiary:hover {
+    background-color: var(--primary);
+    color: #F2F2F2;
+}
+
 .btn-subscribe {
     background-color: var(--primary);
     color: #F2F2F2;
@@ -249,14 +260,12 @@
 }
 
 .sidebar-card .social-links a {
-    color: var(--neutral-800);
-    padding: var(--spacing-sm) 0;
-    transition: color var(--transition-fast), padding-left var(--transition-fast);
+    display: block;
+    text-align: center;
 }
 
-.sidebar-card .social-links a:hover {
-    color: var(--primary);
-    padding-left: var(--spacing-sm);
+.sidebar-card .social-links .btn {
+    width: 100%;
 }
 
 .stat {

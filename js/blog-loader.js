@@ -17,11 +17,11 @@ async function initBlog() {
         // Determine which page we're on
         const path = window.location.pathname;
 
-        if (path.includes('blog.html')) {
+        if (path.includes('articles.html')) {
             renderBlogArchive();
             setupFilterButtons();
             setupSearch();
-        } else if (path.includes('blog-post.html')) {
+        } else if (path.includes('article.html')) {
             renderBlogPost();
         } else if (path.includes('index.html') || path.endsWith('/')) {
             renderBlogPreview();
@@ -170,7 +170,7 @@ function createPostCard(post) {
 
     return `
         <article class="post-card">
-            <a href="blog-post.html?id=${post.id}" class="post-card-link-wrapper">
+            <a href="article.html?id=${post.id}" class="post-card-link-wrapper">
                 <img src="${post.image}" alt="${post.title}" class="post-card-image">
                 <div class="post-card-content">
                     <div class="post-card-meta">
@@ -262,7 +262,7 @@ function renderRelatedPosts(currentPost) {
 
     container.innerHTML = relatedPosts.map(post => `
         <div class="related-post">
-            <a href="blog-post.html?id=${post.id}">
+            <a href="article.html?id=${post.id}">
                 <div class="related-post-title">${post.title}</div>
                 <div class="related-post-date">${formatDate(post.date)}</div>
             </a>

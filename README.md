@@ -17,8 +17,8 @@ A modern, minimal website for the Simply Nerdy YouTube channel. Built with vanil
 simply_nerdy/
 ├── index.html              # Homepage
 ├── about.html              # About page
-├── blog.html               # Blog archive
-├── blog-post.html          # Single blog post template
+├── articles.html           # Articles archive
+├── article.html            # Single article template
 ├── css/
 │   ├── main.css           # Design system & global styles
 │   ├── layout.css         # Grid systems & layouts

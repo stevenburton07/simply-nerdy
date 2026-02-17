@@ -170,18 +170,20 @@ function createPostCard(post) {
 
     return `
         <article class="post-card">
-            <img src="${post.image}" alt="${post.title}" class="post-card-image">
-            <div class="post-card-content">
-                <div class="post-card-meta">
-                    <span class="post-card-category">${post.category}</span>
-                    <span class="post-card-date">${formattedDate}</span>
+            <a href="blog-post.html?id=${post.id}" class="post-card-link-wrapper">
+                <img src="${post.image}" alt="${post.title}" class="post-card-image">
+                <div class="post-card-content">
+                    <div class="post-card-meta">
+                        <span class="post-card-category">${post.category}</span>
+                        <span class="post-card-date">${formattedDate}</span>
+                    </div>
+                    <h3>${post.title}</h3>
+                    <p class="post-card-excerpt">${post.excerpt}</p>
+                    <span class="post-card-link">
+                        Read More →
+                    </span>
                 </div>
-                <h3>${post.title}</h3>
-                <p class="post-card-excerpt">${post.excerpt}</p>
-                <a href="blog-post.html?id=${post.id}" class="post-card-link">
-                    Read More →
-                </a>
-            </div>
+            </a>
         </article>
     `;
 }

@@ -1,14 +1,14 @@
 {
   "_instructions": {
-    "description": "This file contains all blog posts for the Simply Nerdy website.",
-    "howToAdd": "To add a new blog post, copy the template below and add it to the 'posts' array. Posts are displayed in reverse chronological order (newest first).",
+    "description": "This file contains all articles for the Simply Nerdy website.",
+    "howToAdd": "To add a new article, copy the template below and add it to the 'posts' array. Posts are displayed in reverse chronological order (newest first).",
     "template": {
       "id": "unique-id (e.g., '007', '008', etc.)",
-      "title": "Your Blog Post Title",
+      "title": "Your Article Title",
       "slug": "url-friendly-slug",
       "date": "YYYY-MM-DD format (e.g., '2024-03-15')",
       "category": "One of: Games, Books, Movies, TV Shows",
-      "excerpt": "A brief 1-2 sentence summary that appears on blog cards",
+      "excerpt": "A brief 1-2 sentence summary that appears on article cards",
       "content": "Full HTML content with <p> paragraphs, <h4> headings, <ul><li> lists, <em> emphasis, <strong> bold, etc.",
       "tags": ["tag1", "tag2", "tag3", "tag4"],
       "author": "Simply Nerdy",

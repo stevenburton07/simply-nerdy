@@ -26,11 +26,11 @@ simply_nerdy/
 │   └── responsive.css     # Mobile-first breakpoints
 ├── js/
 │   ├── app.js             # Main app initialization
-│   ├── blog-loader.js     # Blog post loading & rendering
+│   ├── articles-loader.js # Article loading & rendering
 │   ├── youtube-gallery.js # YouTube video gallery
 │   └── utils.js           # Utility functions
 ├── data/
-│   ├── blog-posts.json    # Blog post content
+│   ├── articles.json      # Article content
 │   └── videos.json        # YouTube video data
 └── images/
     ├── logo.svg           # Channel logo (add your own)
@@ -79,9 +79,9 @@ Edit `data/videos.json` and replace the video IDs with your actual YouTube video
 To find your video ID: the ID is the part after `v=` in your YouTube URL.
 Example: `https://www.youtube.com/watch?v=dQw4w9WgXcQ` → ID is `dQw4w9WgXcQ`
 
-#### Add Blog Posts
+#### Add Articles
 
-Edit `data/blog-posts.json` to add new blog posts:
+Edit `data/articles.json` to add new articles:
 
 ```json
 {

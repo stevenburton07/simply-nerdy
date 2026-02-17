@@ -1,6 +1,6 @@
 /**
- * Simply Nerdy - Blog Loader
- * Handles loading and rendering blog posts from JSON data
+ * Simply Nerdy - Articles Loader
+ * Handles loading and rendering articles from JSON data
  */
 
 let blogPosts = [];
@@ -37,7 +37,7 @@ async function initBlog() {
  */
 async function loadBlogPosts() {
     try {
-        const response = await fetch('data/blog-posts.json');
+        const response = await fetch('data/articles.json');
         if (!response.ok) throw new Error('Failed to fetch blog posts');
 
         const data = await response.json();

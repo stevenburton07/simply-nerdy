@@ -332,6 +332,36 @@
 }
 
 /* ================================
+   Search Bar
+   ================================ */
+
+.search-bar {
+    margin-bottom: var(--spacing-lg);
+}
+
+.search-input {
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--text-base);
+    font-family: inherit;
+    background-color: var(--bg-primary);
+    color: var(--neutral-900);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    outline: none;
+}
+
+.search-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(230, 0, 18, 0.1);
+}
+
+.search-input::placeholder {
+    color: var(--neutral-600);
+}
+
+/* ================================
    Filter Buttons
    ================================ */
 

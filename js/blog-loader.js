@@ -5,6 +5,7 @@
 
 let blogPosts = [];
 let currentFilter = 'all';
+let currentSearchQuery = '';
 
 /**
  * Initialize blog functionality
@@ -19,6 +20,7 @@ async function initBlog() {
         if (path.includes('blog.html')) {
             renderBlogArchive();
             setupFilterButtons();
+            setupSearch();
         } else if (path.includes('blog-post.html')) {
             renderBlogPost();
         } else if (path.includes('index.html') || path.endsWith('/')) {
@@ -75,11 +77,21 @@ function renderBlogArchive() {
 
     if (!container) return;
 
-    const filteredPosts = filterPosts(currentFilter);
+    let filteredPosts = filterPosts(currentFilter);
+
+    // Apply search filter if there's a search query
+    if (currentSearchQuery) {
+        filteredPosts = searchPosts(filteredPosts, currentSearchQuery);
+    }
 
     if (filteredPosts.length === 0) {
         container.innerHTML = '';
-        if (noPostsDiv) noPostsDiv.style.display = 'block';
+        if (noPostsDiv) {
+            noPostsDiv.style.display = 'block';
+            noPostsDiv.querySelector('p').textContent = currentSearchQuery
+                ? 'No posts found matching your search.'
+                : 'No posts found in this category.';
+        }
         return;
     }
 
@@ -96,6 +108,39 @@ function filterPosts(category) {
     return blogPosts.filter(post =>
         post.category === category || post.tags.includes(category)
     );
+}
+
+/**
+ * Search posts by query
+ */
+function searchPosts(posts, query) {
+    const lowerQuery = query.toLowerCase().trim();
+
+    if (!lowerQuery) return posts;
+
+    return posts.filter(post => {
+        const titleMatch = post.title.toLowerCase().includes(lowerQuery);
+        const excerptMatch = post.excerpt.toLowerCase().includes(lowerQuery);
+        const contentMatch = post.content.toLowerCase().includes(lowerQuery);
+        const tagsMatch = post.tags.some(tag => tag.toLowerCase().includes(lowerQuery));
+        const categoryMatch = post.category.toLowerCase().includes(lowerQuery);
+
+        return titleMatch || excerptMatch || contentMatch || tagsMatch || categoryMatch;
+    });
+}
+
+/**
+ * Setup search functionality
+ */
+function setupSearch() {
+    const searchInput = document.getElementById('blog-search');
+
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', (e) => {
+        currentSearchQuery = e.target.value;
+        renderBlogArchive();
+    });
 }
 
 /**

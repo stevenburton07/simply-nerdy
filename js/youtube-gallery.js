@@ -27,35 +27,36 @@ async function initYouTubeGallery() {
  */
 async function loadVideos() {
     try {
-        // Fetch from YouTube RSS feed
+        // Fetch from YouTube RSS feed via rss2json API
         const channelId = 'UC6H7mlCEADjPd-ivSQt8ozg';
         const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
 
-        const response = await fetch(rssUrl);
+        // Use rss2json API to convert RSS to JSON and bypass CORS
+        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
+        const response = await fetch(apiUrl);
         if (!response.ok) throw new Error('Failed to fetch videos from YouTube');
 
-        const xmlText = await response.text();
+        const data = await response.json();
 
-        // Parse XML
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+        if (!data.items || data.items.length === 0) {
+            throw new Error('No videos found in feed');
+        }
 
         // Extract video data from RSS feed
-        const entries = xmlDoc.querySelectorAll('entry');
-        videos = Array.from(entries).map(entry => {
-            const videoId = entry.querySelector('videoId')?.textContent;
-            const title = entry.querySelector('title')?.textContent;
-            const published = entry.querySelector('published')?.textContent;
+        videos = data.items.map(item => {
+            // Extract video ID from the link
+            const videoId = item.link.split('v=')[1]?.split('&')[0];
 
             return {
                 id: videoId,
-                title: title,
-                date: published,
-                description: ''
+                title: item.title,
+                date: item.pubDate,
+                description: item.description || ''
             };
         });
 
-        // Already sorted by date (newest first) from RSS feed
+        console.log(`Successfully loaded ${videos.length} videos from YouTube`);
     } catch (error) {
         console.error('Error loading videos from YouTube:', error);
 
@@ -66,7 +67,15 @@ async function loadVideos() {
             if (fallbackResponse.ok) {
                 const data = await fallbackResponse.json();
                 videos = data.videos || [];
+
+                if (videos.length === 0) {
+                    throw new Error('No videos in backup JSON either');
+                }
+
                 videos.sort((a, b) => new Date(b.date) - new Date(a.date));
+                console.log(`Loaded ${videos.length} videos from backup JSON`);
+            } else {
+                throw new Error('Backup JSON file not found');
             }
         } catch (fallbackError) {
             console.error('Fallback also failed:', fallbackError);

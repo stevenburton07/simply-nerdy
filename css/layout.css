@@ -59,6 +59,14 @@
     color: var(--primary);
 }
 
+.nav-links .btn-subscribe {
+    color: #F2F2F2;
+}
+
+.nav-links .btn-subscribe:hover {
+    color: #F2F2F2;
+}
+
 .hamburger {
     display: none;
     flex-direction: column;

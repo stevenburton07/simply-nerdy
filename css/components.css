@@ -112,9 +112,10 @@
 
 .video-card img {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
     display: block;
+    background-color: #000;
 }
 
 .video-card h4 {

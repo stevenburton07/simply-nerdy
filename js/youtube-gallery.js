@@ -46,13 +46,25 @@ async function loadVideos() {
         // Extract video data from RSS feed
         videos = data.items.map(item => {
             // Extract video ID from the link
-            const videoId = item.link.split('v=')[1]?.split('&')[0];
+            // Handle both regular videos (youtube.com/watch?v=ID) and shorts (youtube.com/shorts/ID)
+            let videoId;
+            let isShort = false;
+
+            if (item.link.includes('/shorts/')) {
+                // Extract ID from shorts URL
+                videoId = item.link.split('/shorts/')[1]?.split('?')[0];
+                isShort = true;
+            } else {
+                // Extract ID from regular video URL
+                videoId = item.link.split('v=')[1]?.split('&')[0];
+            }
 
             return {
                 id: videoId,
                 title: item.title,
                 date: item.pubDate,
-                description: item.description || ''
+                description: item.description || '',
+                isShort: isShort
             };
         });
 
@@ -107,7 +119,10 @@ function renderVideoGallery() {
  */
 function createVideoCard(video) {
     const thumbnailUrl = `https://img.youtube.com/vi/${video.id}/mqdefault.jpg`;
-    const videoUrl = `https://www.youtube.com/watch?v=${video.id}`;
+    // Use the correct URL format based on whether it's a short or regular video
+    const videoUrl = video.isShort
+        ? `https://www.youtube.com/shorts/${video.id}`
+        : `https://www.youtube.com/watch?v=${video.id}`;
 
     return `
         <div class="video-card">

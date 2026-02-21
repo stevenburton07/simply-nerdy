@@ -45,3 +45,12 @@ yarn-error.log*
 # Optional: if you add Node.js later
 node_modules/
 dist/
+
+# Automation
+automation/logs/*.log
+automation/.env
+transcripts/incoming/*.txt
+transcripts/processed/*.txt
+transcripts/failed/*.txt
+transcripts/failed/*.error.txt
+data/backups/*.json

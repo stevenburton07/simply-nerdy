@@ -1,0 +1,27 @@
+{
+  "watchFolder": "../transcripts/incoming",
+  "processedFolder": "../transcripts/processed",
+  "failedFolder": "../transcripts/failed",
+  "articlesJsonPath": "../data/articles.json",
+  "backupFolder": "../data/backups",
+  "maxBackups": 10,
+  "claudeModel": "claude-sonnet-4-5",
+  "claudeMaxTokens": 4096,
+  "claudeTemperature": 0.7,
+  "retryAttempts": 3,
+  "retryDelayMs": 2000,
+  "categories": [
+    "Games",
+    "Books",
+    "Movies",
+    "TV Shows"
+  ],
+  "defaultImages": {
+    "Games": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&h=400&fit=crop",
+    "Books": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&h=400&fit=crop",
+    "Movies": "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=800&h=400&fit=crop",
+    "TV Shows": "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=800&h=400&fit=crop"
+  },
+  "unsplashEnabled": false,
+  "logLevel": "info"
+}

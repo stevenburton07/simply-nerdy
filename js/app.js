@@ -102,9 +102,23 @@
         navLinks.forEach(link => {
             const linkPath = link.getAttribute('href');
 
-            if (linkPath === currentPath ||
-                (currentPath.endsWith('/') && linkPath === 'index.html') ||
-                (currentPath.includes(linkPath) && linkPath !== 'index.html')) {
+            // Skip external links (those starting with http)
+            if (linkPath && linkPath.startsWith('http')) {
+                return;
+            }
+
+            // Check if this is the home page
+            const isHomePage = currentPath === '/' ||
+                             currentPath === '/index.html' ||
+                             currentPath.endsWith('/index.html');
+
+            // Check if this link should be active
+            const shouldBeActive =
+                linkPath === currentPath ||
+                (isHomePage && linkPath === 'index.html') ||
+                (currentPath.includes(linkPath) && linkPath !== 'index.html' && linkPath !== '/');
+
+            if (shouldBeActive) {
                 link.classList.add('active');
             } else {
                 link.classList.remove('active');

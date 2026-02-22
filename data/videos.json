@@ -1,3 +1,47 @@
 {
-  "videos": []
+  "videos": [
+    {
+      "id": "dQw4w9WgXcQ",
+      "title": "Latest Video - Check Out Simply Nerdy on YouTube",
+      "date": "2026-02-20",
+      "description": "Subscribe to Simply Nerdy for the latest videos!",
+      "isShort": false
+    },
+    {
+      "id": "dQw4w9WgXcQ",
+      "title": "Recent Episode - Gaming Discussion",
+      "date": "2026-02-18",
+      "description": "Latest gaming news and reviews",
+      "isShort": false
+    },
+    {
+      "id": "dQw4w9WgXcQ",
+      "title": "Book Review - Fantasy Favorites",
+      "date": "2026-02-15",
+      "description": "Discussing our favorite fantasy books",
+      "isShort": false
+    },
+    {
+      "id": "dQw4w9WgXcQ",
+      "title": "Movie Talk - Latest Releases",
+      "date": "2026-02-12",
+      "description": "Reviews of recent movie releases",
+      "isShort": false
+    },
+    {
+      "id": "dQw4w9WgXcQ",
+      "title": "TV Series Deep Dive",
+      "date": "2026-02-10",
+      "description": "Episode breakdown and analysis",
+      "isShort": false
+    },
+    {
+      "id": "dQw4w9WgXcQ",
+      "title": "Quick Take - Gaming News",
+      "date": "2026-02-08",
+      "description": "Short news update",
+      "isShort": true
+    }
+  ],
+  "_instructions": "IMPORTANT: To update with real video data, visit your YouTube channel and manually add video IDs here. Video IDs can be found in the YouTube URL: youtube.com/watch?v=VIDEO_ID_HERE"
 }

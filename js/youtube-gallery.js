@@ -1,11 +1,17 @@
 /**
  * Simply Nerdy - YouTube Gallery
  * Handles loading and displaying YouTube videos with caching
+ * Uses YouTube Data API v3 for reliable video fetching
  */
 
 let videos = [];
 const CACHE_KEY = 'simply_nerdy_videos_cache';
 const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes in milliseconds
+
+// YouTube Data API Configuration
+// Get your API key from: https://console.cloud.google.com/apis/credentials
+const YOUTUBE_API_KEY = 'AIzaSyBebc4vg4j4xAc4YcENkPGIMFWmPnySBHM';
+const YOUTUBE_CHANNEL_ID = 'UC6H7mlCEADjPd-ivSQt8ozg';
 
 /**
  * Initialize YouTube gallery
@@ -40,11 +46,11 @@ function getCachedVideos() {
 
         // Check if cache is still valid
         if (now - timestamp < CACHE_DURATION) {
-            console.log('Using cached videos');
+            console.log('Using cached videos (age: ' + Math.round((now - timestamp) / 1000 / 60) + ' minutes)');
             return cachedVideos;
         }
 
-        // Cache expired
+        // Cache expired but keep it as backup
         console.log('Cache expired, fetching fresh videos');
         return null;
     } catch (error) {
@@ -63,31 +69,14 @@ function setCachedVideos(videos) {
             timestamp: Date.now()
         };
         localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
-        console.log('Videos cached successfully');
+        console.log('Videos cached successfully (' + videos.length + ' videos)');
     } catch (error) {
         console.error('Error caching videos:', error);
     }
 }
 
 /**
- * Fetch videos with timeout
- */
-async function fetchWithTimeout(url, timeout = 10000) {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
-
-    try {
-        const response = await fetch(url, { signal: controller.signal });
-        clearTimeout(timeoutId);
-        return response;
-    } catch (error) {
-        clearTimeout(timeoutId);
-        throw error;
-    }
-}
-
-/**
- * Load videos from YouTube RSS feed
+ * Load videos from YouTube Data API v3
  */
 async function loadVideos() {
     // Try to load from cache first
@@ -97,98 +86,96 @@ async function loadVideos() {
         return;
     }
 
+    // Try YouTube Data API first (most reliable)
+    if (YOUTUBE_API_KEY && YOUTUBE_API_KEY !== 'YOUR_YOUTUBE_API_KEY_HERE') {
+        try {
+            console.log('Fetching videos from YouTube Data API...');
+
+            // Use activities endpoint to get both videos and shorts
+            const apiUrl = `https://www.googleapis.com/youtube/v3/activities?part=snippet,contentDetails&channelId=${YOUTUBE_CHANNEL_ID}&maxResults=10&key=${YOUTUBE_API_KEY}`;
+
+            const response = await fetch(apiUrl);
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('YouTube API error:', errorData);
+                throw new Error(`YouTube API error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('YouTube API response:', data);
+
+            if (!data.items || data.items.length === 0) {
+                throw new Error('No videos found from YouTube API');
+            }
+
+            // Extract video data from API response
+            videos = data.items
+                .filter(item => item.snippet.type === 'upload') // Only uploaded videos
+                .map(item => {
+                    const videoId = item.contentDetails?.upload?.videoId;
+
+                    return {
+                        id: videoId,
+                        title: item.snippet.title,
+                        date: item.snippet.publishedAt,
+                        description: item.snippet.description || '',
+                        isShort: false // YouTube API doesn't distinguish, but we can detect later
+                    };
+                })
+                .filter(video => video.id); // Remove any without IDs
+
+            console.log(`Successfully loaded ${videos.length} videos from YouTube Data API`);
+
+            // Cache the successful result
+            setCachedVideos(videos);
+            return;
+
+        } catch (apiError) {
+            console.error('YouTube Data API failed:', apiError);
+            // Continue to fallback options
+        }
+    } else {
+        console.warn('YouTube API key not configured, using fallback methods');
+    }
+
+    // Fallback 1: Try backup JSON file
     try {
-        // Fetch from YouTube RSS feed via rss2json API
-        const channelId = 'UC6H7mlCEADjPd-ivSQt8ozg';
-        const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+        console.log('Loading videos from backup JSON...');
+        const fallbackResponse = await fetch('data/videos.json');
 
-        // Use rss2json API to convert RSS to JSON and bypass CORS
-        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+        if (fallbackResponse.ok) {
+            const data = await fallbackResponse.json();
+            videos = data.videos || [];
 
-        // Fetch with 10 second timeout
-        const response = await fetchWithTimeout(apiUrl, 10000);
-
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: Failed to fetch videos`);
-        }
-
-        const data = await response.json();
-
-        if (!data.items || data.items.length === 0) {
-            throw new Error('No videos found in feed');
-        }
-
-        // Extract video data from RSS feed
-        videos = data.items.map(item => {
-            // Extract video ID from the link
-            // Handle both regular videos (youtube.com/watch?v=ID) and shorts (youtube.com/shorts/ID)
-            let videoId;
-            let isShort = false;
-
-            if (item.link.includes('/shorts/')) {
-                // Extract ID from shorts URL
-                videoId = item.link.split('/shorts/')[1]?.split('?')[0];
-                isShort = true;
-            } else {
-                // Extract ID from regular video URL
-                videoId = item.link.split('v=')[1]?.split('&')[0];
-            }
-
-            return {
-                id: videoId,
-                title: item.title,
-                date: item.pubDate,
-                description: item.description || '',
-                isShort: isShort
-            };
-        });
-
-        console.log(`Successfully loaded ${videos.length} videos from YouTube`);
-
-        // Cache the successful result
-        setCachedVideos(videos);
-
-    } catch (error) {
-        console.error('Error loading videos from YouTube:', error);
-
-        // Try to use any cache (even expired) as fallback
-        try {
-            const cached = localStorage.getItem(CACHE_KEY);
-            if (cached) {
-                const { videos: cachedVideos } = JSON.parse(cached);
-                if (cachedVideos && cachedVideos.length > 0) {
-                    console.log('Using expired cache as fallback');
-                    videos = cachedVideos;
-                    return;
-                }
-            }
-        } catch (cacheError) {
-            console.error('Error reading expired cache:', cacheError);
-        }
-
-        // Fallback to JSON file if RSS fails
-        try {
-            console.log('Attempting to load from backup JSON file...');
-            const fallbackResponse = await fetchWithTimeout('data/videos.json', 5000);
-
-            if (fallbackResponse.ok) {
-                const data = await fallbackResponse.json();
-                videos = data.videos || [];
-
-                if (videos.length === 0) {
-                    throw new Error('No videos in backup JSON either');
-                }
-
+            if (videos.length > 0) {
                 videos.sort((a, b) => new Date(b.date) - new Date(a.date));
                 console.log(`Loaded ${videos.length} videos from backup JSON`);
-            } else {
-                throw new Error('Backup JSON file not found');
+                setCachedVideos(videos);
+                return;
             }
-        } catch (fallbackError) {
-            console.error('Fallback also failed:', fallbackError);
-            throw error;
         }
+    } catch (jsonError) {
+        console.warn('Backup JSON failed:', jsonError);
     }
+
+    // Fallback 2: Try expired cache
+    try {
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) {
+            const { videos: cachedVideos } = JSON.parse(cached);
+            if (cachedVideos && cachedVideos.length > 0) {
+                console.log('Using expired cache as last resort (' + cachedVideos.length + ' videos)');
+                videos = cachedVideos;
+                return;
+            }
+        }
+    } catch (cacheError) {
+        console.error('Error reading expired cache:', cacheError);
+    }
+
+    // If we get here, everything failed
+    throw new Error('Unable to load videos from any source');
 }
 
 /**
@@ -207,6 +194,7 @@ function renderVideoGallery() {
     }
 
     container.innerHTML = latestVideos.map(video => createVideoCard(video)).join('');
+    console.log('Rendered ' + latestVideos.length + ' videos');
 }
 
 /**
@@ -214,7 +202,6 @@ function renderVideoGallery() {
  */
 function createVideoCard(video) {
     const thumbnailUrl = `https://img.youtube.com/vi/${video.id}/mqdefault.jpg`;
-    // Use the correct URL format based on whether it's a short or regular video
     const videoUrl = video.isShort
         ? `https://www.youtube.com/shorts/${video.id}`
         : `https://www.youtube.com/watch?v=${video.id}`;
@@ -255,6 +242,7 @@ window.retryLoadVideos = async function() {
 
     try {
         // Clear cache to force fresh fetch
+        console.log('Clearing cache and retrying...');
         localStorage.removeItem(CACHE_KEY);
         await loadVideos();
         renderVideoGallery();

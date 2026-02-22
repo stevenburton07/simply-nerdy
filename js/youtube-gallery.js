@@ -1,9 +1,11 @@
 /**
  * Simply Nerdy - YouTube Gallery
- * Handles loading and displaying YouTube videos
+ * Handles loading and displaying YouTube videos with caching
  */
 
 let videos = [];
+const CACHE_KEY = 'simply_nerdy_videos_cache';
+const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes in milliseconds
 
 /**
  * Initialize YouTube gallery
@@ -14,6 +16,9 @@ async function initYouTubeGallery() {
     if (!galleryContainer) return;
 
     try {
+        // Show loading state
+        galleryContainer.innerHTML = '<p class="loading">Loading videos...</p>';
+
         await loadVideos();
         renderVideoGallery();
     } catch (error) {
@@ -23,9 +28,75 @@ async function initYouTubeGallery() {
 }
 
 /**
+ * Get cached videos from localStorage
+ */
+function getCachedVideos() {
+    try {
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (!cached) return null;
+
+        const { videos: cachedVideos, timestamp } = JSON.parse(cached);
+        const now = Date.now();
+
+        // Check if cache is still valid
+        if (now - timestamp < CACHE_DURATION) {
+            console.log('Using cached videos');
+            return cachedVideos;
+        }
+
+        // Cache expired
+        console.log('Cache expired, fetching fresh videos');
+        return null;
+    } catch (error) {
+        console.error('Error reading cache:', error);
+        return null;
+    }
+}
+
+/**
+ * Save videos to localStorage cache
+ */
+function setCachedVideos(videos) {
+    try {
+        const cacheData = {
+            videos: videos,
+            timestamp: Date.now()
+        };
+        localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+        console.log('Videos cached successfully');
+    } catch (error) {
+        console.error('Error caching videos:', error);
+    }
+}
+
+/**
+ * Fetch videos with timeout
+ */
+async function fetchWithTimeout(url, timeout = 10000) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+    try {
+        const response = await fetch(url, { signal: controller.signal });
+        clearTimeout(timeoutId);
+        return response;
+    } catch (error) {
+        clearTimeout(timeoutId);
+        throw error;
+    }
+}
+
+/**
  * Load videos from YouTube RSS feed
  */
 async function loadVideos() {
+    // Try to load from cache first
+    const cachedVideos = getCachedVideos();
+    if (cachedVideos && cachedVideos.length > 0) {
+        videos = cachedVideos;
+        return;
+    }
+
     try {
         // Fetch from YouTube RSS feed via rss2json API
         const channelId = 'UC6H7mlCEADjPd-ivSQt8ozg';
@@ -34,8 +105,12 @@ async function loadVideos() {
         // Use rss2json API to convert RSS to JSON and bypass CORS
         const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
 
-        const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error('Failed to fetch videos from YouTube');
+        // Fetch with 10 second timeout
+        const response = await fetchWithTimeout(apiUrl, 10000);
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: Failed to fetch videos`);
+        }
 
         const data = await response.json();
 
@@ -69,13 +144,33 @@ async function loadVideos() {
         });
 
         console.log(`Successfully loaded ${videos.length} videos from YouTube`);
+
+        // Cache the successful result
+        setCachedVideos(videos);
+
     } catch (error) {
         console.error('Error loading videos from YouTube:', error);
+
+        // Try to use any cache (even expired) as fallback
+        try {
+            const cached = localStorage.getItem(CACHE_KEY);
+            if (cached) {
+                const { videos: cachedVideos } = JSON.parse(cached);
+                if (cachedVideos && cachedVideos.length > 0) {
+                    console.log('Using expired cache as fallback');
+                    videos = cachedVideos;
+                    return;
+                }
+            }
+        } catch (cacheError) {
+            console.error('Error reading expired cache:', cacheError);
+        }
 
         // Fallback to JSON file if RSS fails
         try {
             console.log('Attempting to load from backup JSON file...');
-            const fallbackResponse = await fetch('data/videos.json');
+            const fallbackResponse = await fetchWithTimeout('data/videos.json', 5000);
+
             if (fallbackResponse.ok) {
                 const data = await fallbackResponse.json();
                 videos = data.videos || [];
@@ -135,12 +230,37 @@ function createVideoCard(video) {
 }
 
 /**
- * Show error message
+ * Show error message with retry button
  */
 function showVideoError(message) {
     const container = document.getElementById('video-gallery');
     if (container) {
-        container.innerHTML = `<div class="error">${message}</div>`;
+        container.innerHTML = `
+            <div class="error-message" style="text-align: center; padding: 2rem;">
+                <p style="color: var(--neutral-700); margin-bottom: 1rem;">${message}</p>
+                <button onclick="retryLoadVideos()" class="btn btn-primary btn-sm">Retry</button>
+            </div>
+        `;
+    }
+}
+
+/**
+ * Retry loading videos (exposed globally for button onclick)
+ */
+window.retryLoadVideos = async function() {
+    const container = document.getElementById('video-gallery');
+    if (container) {
+        container.innerHTML = '<p class="loading">Loading videos...</p>';
+    }
+
+    try {
+        // Clear cache to force fresh fetch
+        localStorage.removeItem(CACHE_KEY);
+        await loadVideos();
+        renderVideoGallery();
+    } catch (error) {
+        console.error('Retry failed:', error);
+        showVideoError('Still unable to load videos. Please try again later.');
     }
 }
 

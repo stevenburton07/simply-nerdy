@@ -47,9 +47,8 @@ Follow these steps to get your YouTube API key and enable automatic video loadin
    ```
 3. Replace with your actual API key:
    ```javascript
-   const YOUTUBE_API_KEY = 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY';
+   const YOUTUBE_API_KEY = 'YOUR_ACTUAL_API_KEY_HERE';
    ```
-   (This is an example - use YOUR key!)
 
 4. Save the file
 

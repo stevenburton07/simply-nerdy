@@ -10,7 +10,7 @@ const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes in milliseconds
 
 // YouTube Data API Configuration
 // Get your API key from: https://console.cloud.google.com/apis/credentials
-const YOUTUBE_API_KEY = 'AIzaSyBebc4vg4j4xAc4YcENkPGIMFWmPnySBHM';
+const YOUTUBE_API_KEY = 'AIzaSyA2vZK7mrlIanWohdoLzqh15514fIgm9hI';
 const YOUTUBE_CHANNEL_ID = 'UC6H7mlCEADjPd-ivSQt8ozg';
 
 /**

@@ -79,103 +79,77 @@ function setCachedVideos(videos) {
  * Load videos from YouTube Data API v3
  */
 async function loadVideos() {
-    // Try to load from cache first
+    // Try to load from cache first (30 min cache)
     const cachedVideos = getCachedVideos();
     if (cachedVideos && cachedVideos.length > 0) {
         videos = cachedVideos;
         return;
     }
 
-    // Try YouTube Data API first (most reliable)
-    if (YOUTUBE_API_KEY && YOUTUBE_API_KEY !== 'YOUR_YOUTUBE_API_KEY_HERE') {
+    // Fetch from YouTube Data API
+    try {
+        console.log('Fetching videos from YouTube Data API...');
+
+        const apiUrl = `https://www.googleapis.com/youtube/v3/activities?part=snippet,contentDetails&channelId=${YOUTUBE_CHANNEL_ID}&maxResults=10&key=${YOUTUBE_API_KEY}`;
+
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('YouTube API error:', errorData);
+            throw new Error(`YouTube API error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('YouTube API response:', data);
+
+        if (!data.items || data.items.length === 0) {
+            throw new Error('No videos found from YouTube API');
+        }
+
+        // Extract video data from API response
+        videos = data.items
+            .filter(item => item.snippet.type === 'upload') // Only uploaded videos
+            .map(item => {
+                const videoId = item.contentDetails?.upload?.videoId;
+
+                return {
+                    id: videoId,
+                    title: item.snippet.title,
+                    date: item.snippet.publishedAt,
+                    description: item.snippet.description || '',
+                    isShort: false
+                };
+            })
+            .filter(video => video.id); // Remove any without IDs
+
+        console.log(`Successfully loaded ${videos.length} videos from YouTube Data API`);
+
+        // Cache the successful result
+        setCachedVideos(videos);
+        return;
+
+    } catch (apiError) {
+        console.error('YouTube Data API failed:', apiError);
+
+        // Fallback: Try expired cache as last resort
         try {
-            console.log('Fetching videos from YouTube Data API...');
-
-            // Use activities endpoint to get both videos and shorts
-            const apiUrl = `https://www.googleapis.com/youtube/v3/activities?part=snippet,contentDetails&channelId=${YOUTUBE_CHANNEL_ID}&maxResults=10&key=${YOUTUBE_API_KEY}`;
-
-            const response = await fetch(apiUrl);
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('YouTube API error:', errorData);
-                throw new Error(`YouTube API error: ${response.status}`);
+            const cached = localStorage.getItem(CACHE_KEY);
+            if (cached) {
+                const { videos: cachedVideos } = JSON.parse(cached);
+                if (cachedVideos && cachedVideos.length > 0) {
+                    console.log('Using expired cache as fallback (' + cachedVideos.length + ' videos)');
+                    videos = cachedVideos;
+                    return;
+                }
             }
-
-            const data = await response.json();
-            console.log('YouTube API response:', data);
-
-            if (!data.items || data.items.length === 0) {
-                throw new Error('No videos found from YouTube API');
-            }
-
-            // Extract video data from API response
-            videos = data.items
-                .filter(item => item.snippet.type === 'upload') // Only uploaded videos
-                .map(item => {
-                    const videoId = item.contentDetails?.upload?.videoId;
-
-                    return {
-                        id: videoId,
-                        title: item.snippet.title,
-                        date: item.snippet.publishedAt,
-                        description: item.snippet.description || '',
-                        isShort: false // YouTube API doesn't distinguish, but we can detect later
-                    };
-                })
-                .filter(video => video.id); // Remove any without IDs
-
-            console.log(`Successfully loaded ${videos.length} videos from YouTube Data API`);
-
-            // Cache the successful result
-            setCachedVideos(videos);
-            return;
-
-        } catch (apiError) {
-            console.error('YouTube Data API failed:', apiError);
-            // Continue to fallback options
+        } catch (cacheError) {
+            console.error('Error reading expired cache:', cacheError);
         }
-    } else {
-        console.warn('YouTube API key not configured, using fallback methods');
+
+        // If we get here, everything failed
+        throw new Error('Unable to load videos from any source');
     }
-
-    // Fallback 1: Try backup JSON file
-    try {
-        console.log('Loading videos from backup JSON...');
-        const fallbackResponse = await fetch('data/videos.json');
-
-        if (fallbackResponse.ok) {
-            const data = await fallbackResponse.json();
-            videos = data.videos || [];
-
-            if (videos.length > 0) {
-                videos.sort((a, b) => new Date(b.date) - new Date(a.date));
-                console.log(`Loaded ${videos.length} videos from backup JSON`);
-                setCachedVideos(videos);
-                return;
-            }
-        }
-    } catch (jsonError) {
-        console.warn('Backup JSON failed:', jsonError);
-    }
-
-    // Fallback 2: Try expired cache
-    try {
-        const cached = localStorage.getItem(CACHE_KEY);
-        if (cached) {
-            const { videos: cachedVideos } = JSON.parse(cached);
-            if (cachedVideos && cachedVideos.length > 0) {
-                console.log('Using expired cache as last resort (' + cachedVideos.length + ' videos)');
-                videos = cachedVideos;
-                return;
-            }
-        }
-    } catch (cacheError) {
-        console.error('Error reading expired cache:', cacheError);
-    }
-
-    // If we get here, everything failed
-    throw new Error('Unable to load videos from any source');
 }
 
 /**

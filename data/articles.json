@@ -20,7 +20,7 @@
       "Use <ul><li> for bullet lists",
       "Use <em> for italic text and <strong> for bold",
       "Keep the content engaging and conversational",
-      "Images should be landscape orientation, ideally 800x400px or similar ratio",
+      "Images should be 16:9 aspect ratio, ideally 1600x900px or 1920x1080px",
       "Place article images in the /images/articles/ folder with descriptive filenames"
     ],
     "categories": ["Games", "Books", "Movies", "TV Shows", "Music"],

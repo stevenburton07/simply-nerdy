@@ -89,8 +89,8 @@
    ================================ */
 
 .hero {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    color: white;
+    background: url('../images/Background.png') center/cover no-repeat;
+    color: var(--primary);
     padding: var(--spacing-3xl) 0;
     text-align: center;
 }
@@ -98,19 +98,21 @@
 .hero-content {
     max-width: 800px;
     margin: 0 auto;
-    padding: 0 var(--spacing-lg);
+    padding: var(--spacing-2xl) var(--spacing-xl);
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: var(--radius-lg);
 }
 
 .hero h1 {
     font-size: var(--text-5xl);
-    color: white;
+    color: var(--primary);
     margin-bottom: var(--spacing-md);
 }
 
 .hero-subtitle {
     font-size: var(--text-xl);
     margin-bottom: var(--spacing-2xl);
-    color: rgba(255, 255, 255, 0.95);
+    color: var(--primary);
 }
 
 .hero-cta {

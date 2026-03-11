@@ -34,12 +34,12 @@
 
 .btn-secondary {
     background-color: transparent;
-    color: white;
-    border: 2px solid white;
+    color: var(--primary);
+    border: 2px solid var(--primary);
 }
 
 .btn-secondary:hover {
-    background-color: white;
+    background-color: #FDE6E7;
     color: var(--primary);
 }
 

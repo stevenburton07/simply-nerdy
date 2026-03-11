@@ -229,7 +229,8 @@ blockquote {
 }
 
 .page-hero {
-    background: url('../images/Background.png') center/cover no-repeat;
+    background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+                url('../images/Background.png') center/cover no-repeat;
     color: var(--primary);
     padding: var(--spacing-3xl) 0;
     text-align: center;

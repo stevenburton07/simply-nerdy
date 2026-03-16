@@ -275,6 +275,30 @@
     margin-bottom: var(--spacing-sm);
 }
 
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    margin: var(--spacing-xl) 0;
+}
+
+.post-content figure {
+    margin: var(--spacing-2xl) 0;
+}
+
+.post-content figure img {
+    margin: 0;
+    width: 100%;
+}
+
+.post-content figcaption {
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--neutral-600);
+    font-style: italic;
+    margin-top: var(--spacing-sm);
+}
+
 .post-tags {
     display: flex;
     flex-wrap: wrap;

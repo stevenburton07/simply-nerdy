@@ -21,7 +21,9 @@
       "Use <em> for italic text and <strong> for bold",
       "Keep the content engaging and conversational",
       "Images should be 16:9 aspect ratio, ideally 1600x900px or 1920x1080px",
-      "Place article images in the /images/articles/ folder with descriptive filenames"
+      "Place article images in the /images/articles/ folder with descriptive filenames",
+      "To add images within content: <img src='/images/articles/image-name.jpg' alt='description'>",
+      "For images with captions: <figure><img src='/images/articles/image-name.jpg' alt='description'><figcaption>Caption text here</figcaption></figure>"
     ],
     "categories": ["Games", "Books", "Movies", "TV Shows", "Music"],
     "tagGuidelines": "Use 3-5 relevant tags per post. Tags help with search and discovery."

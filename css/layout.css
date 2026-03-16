@@ -211,6 +211,11 @@
     color: var(--neutral-600);
 }
 
+.post-author {
+    font-size: var(--text-sm);
+    color: var(--neutral-600);
+}
+
 .post-header h1 {
     font-size: var(--text-4xl);
     line-height: 1.2;

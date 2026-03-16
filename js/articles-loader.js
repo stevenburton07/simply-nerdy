@@ -220,6 +220,7 @@ function renderBlogPost() {
     // Populate post content
     document.getElementById('post-category').textContent = post.category;
     document.getElementById('post-date').textContent = formatDate(post.date);
+    document.getElementById('post-author').textContent = `By ${post.author}`;
     document.getElementById('post-title').textContent = post.title;
     document.getElementById('post-excerpt').textContent = post.excerpt;
 

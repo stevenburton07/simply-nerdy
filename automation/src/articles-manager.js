@@ -96,14 +96,20 @@ export async function getNextArticleId() {
       return '001';
     }
 
-    // Find the highest numeric ID
+    // Find the highest numeric ID, skipping non-numeric string IDs
     let maxId = 0;
+    let totalPosts = data.posts.length;
     data.posts.forEach(post => {
       const numericId = parseInt(post.id, 10);
       if (!isNaN(numericId) && numericId > maxId) {
         maxId = numericId;
       }
     });
+
+    // If no numeric IDs found, base off total post count
+    if (maxId === 0) {
+      maxId = totalPosts;
+    }
 
     const nextId = generateId(String(maxId));
     logger.debug(`Generated next article ID: ${nextId} (from max: ${maxId})`);
@@ -132,8 +138,8 @@ export async function validateArticleStructure(article) {
   });
 
   // Validate field types and formats
-  if (article.id && !/^\d{3}$/.test(article.id)) {
-    errors.push('ID must be 3-digit zero-padded number (e.g., "007")');
+  if (article.id && typeof article.id === 'string' && article.id.trim().length === 0) {
+    errors.push('ID must not be empty');
   }
 
   if (article.title && (article.title.length < 10 || article.title.length > 100)) {
@@ -165,12 +171,8 @@ export async function validateArticleStructure(article) {
     errors.push('Tags must be an array with at least 3 items');
   }
 
-  if (article.author && article.author !== 'Simply Nerdy') {
-    errors.push('Author must be "Simply Nerdy"');
-  }
-
-  if (article.image && !article.image.startsWith('http')) {
-    errors.push('Image must be a valid URL starting with http');
+  if (article.image && !article.image.startsWith('http') && !article.image.startsWith('/')) {
+    errors.push('Image must be a URL starting with http or a local path starting with /');
   }
 
   return {

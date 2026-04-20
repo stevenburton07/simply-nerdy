@@ -4,231 +4,199 @@
  * Uses YouTube Data API v3 for reliable video fetching
  */
 
-let videos = [];
-const CACHE_KEY = 'simply_nerdy_videos_cache';
-const CACHE_DURATION = 30 * 60 * 1000; // 30 minutes in milliseconds
+(function() {
+    'use strict';
 
-// YouTube Data API Configuration
-// Get your API key from: https://console.cloud.google.com/apis/credentials
-const YOUTUBE_API_KEY = 'AIzaSyA2vZK7mrlIanWohdoLzqh15514fIgm9hI';
-const YOUTUBE_CHANNEL_ID = 'UC6H7mlCEADjPd-ivSQt8ozg';
+    let videos = [];
+    const CACHE_KEY = 'simply_nerdy_videos_cache';
+    const CACHE_DURATION = 30 * 60 * 1000;
 
-/**
- * Initialize YouTube gallery
- */
-async function initYouTubeGallery() {
-    // Only run on homepage
-    const galleryContainer = document.getElementById('video-gallery');
-    if (!galleryContainer) return;
+    const YOUTUBE_API_KEY = 'AIzaSyA2vZK7mrlIanWohdoLzqh15514fIgm9hI';
+    const YOUTUBE_CHANNEL_ID = 'UC6H7mlCEADjPd-ivSQt8ozg';
 
-    try {
-        // Show loading state
-        galleryContainer.innerHTML = '<p class="loading">Loading videos...</p>';
+    async function initYouTubeGallery() {
+        const galleryContainer = document.getElementById('video-gallery');
+        if (!galleryContainer) return;
 
-        await loadVideos();
-        renderVideoGallery();
-    } catch (error) {
-        console.error('Error initializing YouTube gallery:', error);
-        showVideoError('Failed to load videos. Please try again later.');
-    }
-}
+        try {
+            galleryContainer.innerHTML = '<p class="loading">Loading videos...</p>';
 
-/**
- * Get cached videos from localStorage
- */
-function getCachedVideos() {
-    try {
-        const cached = localStorage.getItem(CACHE_KEY);
-        if (!cached) return null;
-
-        const { videos: cachedVideos, timestamp } = JSON.parse(cached);
-        const now = Date.now();
-
-        // Check if cache is still valid
-        if (now - timestamp < CACHE_DURATION) {
-            console.log('Using cached videos (age: ' + Math.round((now - timestamp) / 1000 / 60) + ' minutes)');
-            return cachedVideos;
+            await loadVideos();
+            renderVideoGallery();
+        } catch (error) {
+            console.error('Error initializing YouTube gallery:', error);
+            showVideoError('Failed to load videos. Please try again later.');
         }
-
-        // Cache expired but keep it as backup
-        console.log('Cache expired, fetching fresh videos');
-        return null;
-    } catch (error) {
-        console.error('Error reading cache:', error);
-        return null;
-    }
-}
-
-/**
- * Save videos to localStorage cache
- */
-function setCachedVideos(videos) {
-    try {
-        const cacheData = {
-            videos: videos,
-            timestamp: Date.now()
-        };
-        localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
-        console.log('Videos cached successfully (' + videos.length + ' videos)');
-    } catch (error) {
-        console.error('Error caching videos:', error);
-    }
-}
-
-/**
- * Load videos from YouTube Data API v3
- */
-async function loadVideos() {
-    // Try to load from cache first (30 min cache)
-    const cachedVideos = getCachedVideos();
-    if (cachedVideos && cachedVideos.length > 0) {
-        videos = cachedVideos;
-        return;
     }
 
-    // Fetch from YouTube Data API
-    try {
-        console.log('Fetching videos from YouTube Data API...');
-
-        const apiUrl = `https://www.googleapis.com/youtube/v3/activities?part=snippet,contentDetails&channelId=${YOUTUBE_CHANNEL_ID}&maxResults=10&key=${YOUTUBE_API_KEY}`;
-
-        const response = await fetch(apiUrl);
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error('YouTube API error:', errorData);
-            throw new Error(`YouTube API error: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log('YouTube API response:', data);
-
-        if (!data.items || data.items.length === 0) {
-            throw new Error('No videos found from YouTube API');
-        }
-
-        // Extract video data from API response
-        videos = data.items
-            .filter(item => item.snippet.type === 'upload') // Only uploaded videos
-            .map(item => {
-                const videoId = item.contentDetails?.upload?.videoId;
-
-                return {
-                    id: videoId,
-                    title: item.snippet.title,
-                    date: item.snippet.publishedAt,
-                    description: item.snippet.description || '',
-                    isShort: false
-                };
-            })
-            .filter(video => video.id); // Remove any without IDs
-
-        console.log(`Successfully loaded ${videos.length} videos from YouTube Data API`);
-
-        // Cache the successful result
-        setCachedVideos(videos);
-        return;
-
-    } catch (apiError) {
-        console.error('YouTube Data API failed:', apiError);
-
-        // Fallback: Try expired cache as last resort
+    function getCachedVideos() {
         try {
             const cached = localStorage.getItem(CACHE_KEY);
-            if (cached) {
-                const { videos: cachedVideos } = JSON.parse(cached);
-                if (cachedVideos && cachedVideos.length > 0) {
-                    console.log('Using expired cache as fallback (' + cachedVideos.length + ' videos)');
-                    videos = cachedVideos;
-                    return;
-                }
+            if (!cached) return null;
+
+            const { videos: cachedVideos, timestamp } = JSON.parse(cached);
+            const now = Date.now();
+
+            if (now - timestamp < CACHE_DURATION) {
+                console.log('Using cached videos (age: ' + Math.round((now - timestamp) / 1000 / 60) + ' minutes)');
+                return cachedVideos;
             }
-        } catch (cacheError) {
-            console.error('Error reading expired cache:', cacheError);
+
+            console.log('Cache expired, fetching fresh videos');
+            return null;
+        } catch (error) {
+            console.error('Error reading cache:', error);
+            return null;
+        }
+    }
+
+    function setCachedVideos(videoList) {
+        try {
+            const cacheData = {
+                videos: videoList,
+                timestamp: Date.now()
+            };
+            localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+            console.log('Videos cached successfully (' + videoList.length + ' videos)');
+        } catch (error) {
+            console.error('Error caching videos:', error);
+        }
+    }
+
+    async function loadVideos() {
+        const cachedVideos = getCachedVideos();
+        if (cachedVideos && cachedVideos.length > 0) {
+            videos = cachedVideos;
+            return;
         }
 
-        // If we get here, everything failed
-        throw new Error('Unable to load videos from any source');
+        try {
+            console.log('Fetching videos from YouTube Data API...');
+
+            const apiUrl = `https://www.googleapis.com/youtube/v3/activities?part=snippet,contentDetails&channelId=${YOUTUBE_CHANNEL_ID}&maxResults=10&key=${YOUTUBE_API_KEY}`;
+
+            const response = await fetch(apiUrl);
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('YouTube API error:', errorData);
+                throw new Error(`YouTube API error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('YouTube API response:', data);
+
+            if (!data.items || data.items.length === 0) {
+                throw new Error('No videos found from YouTube API');
+            }
+
+            videos = data.items
+                .filter(item => item.snippet.type === 'upload')
+                .map(item => {
+                    const videoId = item.contentDetails?.upload?.videoId;
+
+                    return {
+                        id: videoId,
+                        title: item.snippet.title,
+                        date: item.snippet.publishedAt,
+                        description: item.snippet.description || '',
+                        isShort: false
+                    };
+                })
+                .filter(video => video.id);
+
+            console.log(`Successfully loaded ${videos.length} videos from YouTube Data API`);
+
+            setCachedVideos(videos);
+            return;
+
+        } catch (apiError) {
+            console.error('YouTube Data API failed:', apiError);
+
+            try {
+                const cached = localStorage.getItem(CACHE_KEY);
+                if (cached) {
+                    const { videos: cachedVideos } = JSON.parse(cached);
+                    if (cachedVideos && cachedVideos.length > 0) {
+                        console.log('Using expired cache as fallback (' + cachedVideos.length + ' videos)');
+                        videos = cachedVideos;
+                        return;
+                    }
+                }
+            } catch (cacheError) {
+                console.error('Error reading expired cache:', cacheError);
+            }
+
+            throw new Error('Unable to load videos from any source');
+        }
     }
-}
 
-/**
- * Render video gallery on homepage
- */
-function renderVideoGallery() {
-    const container = document.getElementById('video-gallery');
-    if (!container) return;
+    function renderVideoGallery() {
+        const container = document.getElementById('video-gallery');
+        if (!container) return;
 
-    // Show latest 6 videos
-    const latestVideos = videos.slice(0, 6);
+        const latestVideos = videos.slice(0, 6);
 
-    if (latestVideos.length === 0) {
-        container.innerHTML = '<p class="loading">No videos available yet.</p>';
-        return;
+        if (latestVideos.length === 0) {
+            container.innerHTML = '<p class="loading">No videos available yet.</p>';
+            return;
+        }
+
+        container.innerHTML = latestVideos.map(video => createVideoCard(video)).join('');
+        console.log('Rendered ' + latestVideos.length + ' videos');
     }
 
-    container.innerHTML = latestVideos.map(video => createVideoCard(video)).join('');
-    console.log('Rendered ' + latestVideos.length + ' videos');
-}
+    function createVideoCard(video) {
+        const safeId = escapeHtml(video.id);
+        const safeTitle = escapeHtml(video.title);
+        const thumbnailUrl = `https://img.youtube.com/vi/${safeId}/mqdefault.jpg`;
+        const videoUrl = video.isShort
+            ? `https://www.youtube.com/shorts/${safeId}`
+            : `https://www.youtube.com/watch?v=${safeId}`;
 
-/**
- * Create a video card HTML
- */
-function createVideoCard(video) {
-    const thumbnailUrl = `https://img.youtube.com/vi/${video.id}/mqdefault.jpg`;
-    const videoUrl = video.isShort
-        ? `https://www.youtube.com/shorts/${video.id}`
-        : `https://www.youtube.com/watch?v=${video.id}`;
-
-    return `
-        <div class="video-card">
-            <a href="${videoUrl}" target="_blank" rel="noopener noreferrer">
-                <img src="${thumbnailUrl}" alt="${video.title}">
-                <h4>${video.title}</h4>
-            </a>
-        </div>
-    `;
-}
-
-/**
- * Show error message with retry button
- */
-function showVideoError(message) {
-    const container = document.getElementById('video-gallery');
-    if (container) {
-        container.innerHTML = `
-            <div class="error-message" style="text-align: center; padding: 2rem;">
-                <p style="color: var(--neutral-700); margin-bottom: 1rem;">${message}</p>
-                <button onclick="retryLoadVideos()" class="btn btn-primary btn-sm">Retry</button>
+        return `
+            <div class="video-card">
+                <a href="${videoUrl}" target="_blank" rel="noopener noreferrer">
+                    <img src="${thumbnailUrl}" alt="${safeTitle}">
+                    <h4>${safeTitle}</h4>
+                </a>
             </div>
         `;
     }
-}
 
-/**
- * Retry loading videos (exposed globally for button onclick)
- */
-window.retryLoadVideos = async function() {
-    const container = document.getElementById('video-gallery');
-    if (container) {
-        container.innerHTML = '<p class="loading">Loading videos...</p>';
+    function showVideoError(message) {
+        const container = document.getElementById('video-gallery');
+        if (container) {
+            container.innerHTML = `
+                <div class="error-message" style="text-align: center; padding: 2rem;">
+                    <p style="color: var(--neutral-700); margin-bottom: 1rem;">${message}</p>
+                    <button onclick="retryLoadVideos()" class="btn btn-primary btn-sm">Retry</button>
+                </div>
+            `;
+        }
     }
 
-    try {
-        // Clear cache to force fresh fetch
-        console.log('Clearing cache and retrying...');
-        localStorage.removeItem(CACHE_KEY);
-        await loadVideos();
-        renderVideoGallery();
-    } catch (error) {
-        console.error('Retry failed:', error);
-        showVideoError('Still unable to load videos. Please try again later.');
-    }
-}
+    window.retryLoadVideos = async function() {
+        const container = document.getElementById('video-gallery');
+        if (container) {
+            container.innerHTML = '<p class="loading">Loading videos...</p>';
+        }
 
-// Initialize gallery when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initYouTubeGallery);
-} else {
-    initYouTubeGallery();
-}
+        try {
+            console.log('Clearing cache and retrying...');
+            localStorage.removeItem(CACHE_KEY);
+            await loadVideos();
+            renderVideoGallery();
+        } catch (error) {
+            console.error('Retry failed:', error);
+            showVideoError('Still unable to load videos. Please try again later.');
+        }
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initYouTubeGallery);
+    } else {
+        initYouTubeGallery();
+    }
+
+})();

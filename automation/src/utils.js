@@ -119,20 +119,22 @@ export function sanitizeHtml(html) {
     return '';
   }
 
-  // Remove dangerous tags
-  const dangerous = ['script', 'iframe', 'object', 'embed', 'form'];
+  // Remove dangerous tags (including content between them)
+  const dangerous = ['script', 'iframe', 'object', 'embed', 'form', 'style', 'link', 'meta', 'base'];
   let sanitized = html;
 
   dangerous.forEach(tag => {
-    const regex = new RegExp(`<${tag}[^>]*>.*?</${tag}>`, 'gi');
+    const regex = new RegExp(`<\\s*${tag}[\\s\\S]*?<\\s*/\\s*${tag}\\s*>`, 'gi');
     sanitized = sanitized.replace(regex, '');
-    // Also remove self-closing versions
-    const selfClosing = new RegExp(`<${tag}[^>]*/>`, 'gi');
+    const selfClosing = new RegExp(`<\\s*${tag}[^>]*/?>`, 'gi');
     sanitized = sanitized.replace(selfClosing, '');
   });
 
-  // Remove event handlers (onclick, onerror, etc.)
-  sanitized = sanitized.replace(/on\w+\s*=\s*["'][^"']*["']/gi, '');
+  // Remove event handlers (quoted, unquoted, and backtick-delimited)
+  sanitized = sanitized.replace(/\bon\w+\s*=\s*(?:"[^"]*"|'[^']*'|`[^`]*`|[^\s>]+)/gi, '');
+
+  // Remove javascript: and data: URLs in href/src attributes
+  sanitized = sanitized.replace(/(href|src)\s*=\s*(?:"[^"]*(?:javascript|data)\s*:[^"]*"|'[^']*(?:javascript|data)\s*:[^']*')/gi, '');
 
   return sanitized;
 }

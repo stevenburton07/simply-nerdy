@@ -14,13 +14,15 @@
     "Games",
     "Books",
     "Movies",
-    "TV Shows"
+    "TV Shows",
+    "Music"
   ],
   "defaultImages": {
     "Games": "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&h=400&fit=crop",
     "Books": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&h=400&fit=crop",
     "Movies": "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=800&h=400&fit=crop",
-    "TV Shows": "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=800&h=400&fit=crop"
+    "TV Shows": "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=800&h=400&fit=crop",
+    "Music": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&h=400&fit=crop"
   },
   "unsplashEnabled": false,
   "logLevel": "info"

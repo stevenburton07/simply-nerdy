@@ -24,47 +24,39 @@
 
         if (!hamburger || !navLinks) return;
 
+        function resetHamburger() {
+            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');
+            const spans = hamburger.querySelectorAll('span');
+            spans[0].style.transform = 'none';
+            spans[1].style.opacity = '1';
+            spans[2].style.transform = 'none';
+        }
+
         hamburger.addEventListener('click', () => {
             navLinks.classList.toggle('active');
             hamburger.classList.toggle('active');
 
-            // Animate hamburger icon
             const spans = hamburger.querySelectorAll('span');
             if (hamburger.classList.contains('active')) {
                 spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
                 spans[1].style.opacity = '0';
                 spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
             } else {
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
+                resetHamburger();
             }
         });
 
-        // Close mobile menu when clicking outside
         document.addEventListener('click', (e) => {
             if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
-                navLinks.classList.remove('active');
-                hamburger.classList.remove('active');
-
-                const spans = hamburger.querySelectorAll('span');
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
+                resetHamburger();
             }
         });
 
-        // Close mobile menu when clicking a nav link
         const navLinkItems = navLinks.querySelectorAll('a');
         navLinkItems.forEach(link => {
             link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                hamburger.classList.remove('active');
-
-                const spans = hamburger.querySelectorAll('span');
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
+                resetHamburger();
             });
         });
     }
@@ -133,8 +125,6 @@
         const header = document.querySelector('.site-header');
         if (!header) return;
 
-        let lastScroll = 0;
-
         const handleScroll = throttle(() => {
             const currentScroll = window.pageYOffset;
 
@@ -143,8 +133,6 @@
             } else {
                 header.style.boxShadow = 'var(--shadow-sm)';
             }
-
-            lastScroll = currentScroll;
         }, 100);
 
         window.addEventListener('scroll', handleScroll);

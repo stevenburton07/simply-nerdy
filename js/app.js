@@ -139,27 +139,6 @@
     }
 
     /**
-     * Initialize animations on scroll
-     */
-    function initScrollAnimations() {
-        const animateOnScroll = document.querySelectorAll('[data-animate]');
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animated');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        });
-
-        animateOnScroll.forEach(el => observer.observe(el));
-    }
-
-    /**
      * Handle external links
      */
     function setupExternalLinks() {

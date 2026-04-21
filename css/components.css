@@ -43,17 +43,6 @@
     color: var(--primary);
 }
 
-.btn-tertiary {
-    background-color: transparent;
-    color: var(--primary);
-    border: 2px solid var(--primary);
-}
-
-.btn-tertiary:hover {
-    background-color: var(--primary);
-    color: #F2F2F2;
-}
-
 .btn-subscribe {
     background-color: var(--primary);
     color: #F2F2F2;
@@ -77,19 +66,6 @@
 /* ================================
    Cards
    ================================ */
-
-.card {
-    background-color: var(--bg-primary);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
-    transition: transform var(--transition-base), box-shadow var(--transition-base);
-}
-
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-xl);
-}
 
 /* Video Card */
 .video-card {

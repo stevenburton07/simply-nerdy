@@ -1,0 +1,71 @@
+/* ================================
+   Simply Nerdy - Animations
+   Scroll-reveal, skeleton loading,
+   typing effect, stat counter
+   ================================ */
+
+/* ================================
+   Scroll Reveal
+   ================================ */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ================================
+   Skeleton Loading
+   ================================ */
+
+.skeleton-card {
+    background: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.skeleton {
+    background: linear-gradient(90deg, var(--neutral-100) 25%, var(--neutral-200) 50%, var(--neutral-100) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton-image {
+    aspect-ratio: 16 / 9;
+}
+
+.skeleton-body {
+    padding: var(--spacing-lg);
+}
+
+.skeleton-line {
+    height: 1em;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.skeleton-line--title {
+    width: 80%;
+    height: 1.25em;
+}
+
+.skeleton-line--medium {
+    width: 100%;
+}
+
+.skeleton-line--short {
+    width: 50%;
+    margin-bottom: 0;
+}
+
+@keyframes skeleton-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+

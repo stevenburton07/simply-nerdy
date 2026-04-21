@@ -369,10 +369,10 @@
    ================================ */
 
 .site-footer {
-    background-color: var(--neutral-900);
+    background-color: var(--primary);
     color: var(--accent);
     padding: var(--spacing-xl) 0;
-    margin-top: var(--spacing-3xl);
+    margin-top: auto;
 }
 
 .footer-bottom {
@@ -380,6 +380,6 @@
 }
 
 .footer-bottom p {
-    color: var(--neutral-400);
+    color: var(--accent);
     font-size: var(--text-sm);
 }

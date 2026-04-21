@@ -12,6 +12,13 @@
 
     async function initBlog() {
         try {
+            if (typeof generateSkeletonCards === 'function') {
+                const previewContainer = document.getElementById('blog-preview');
+                const archiveContainer = document.getElementById('blog-posts');
+                if (previewContainer) previewContainer.innerHTML = generateSkeletonCards(3);
+                if (archiveContainer) archiveContainer.innerHTML = generateSkeletonCards(6);
+            }
+
             await loadBlogPosts();
 
             const path = window.location.pathname;
@@ -250,7 +257,11 @@
                           document.querySelector('.post-main');
 
         if (container) {
-            container.innerHTML = `<div class="error">${message}</div>`;
+            const div = document.createElement('div');
+            div.className = 'error';
+            div.textContent = message;
+            container.innerHTML = '';
+            container.appendChild(div);
         }
     }
 

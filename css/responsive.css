@@ -102,14 +102,6 @@
     }
 }
 
-/* Mobile footer */
-@media (max-width: 768px) {
-    .footer-content {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-xl);
-    }
-}
-
 /* Mobile page hero */
 @media (max-width: 640px) {
     .page-hero h1 {
@@ -202,7 +194,6 @@
     }
 
     /* Disable hover effects on touch devices */
-    .card:hover,
     .video-card:hover,
     .post-card:hover {
         transform: none;

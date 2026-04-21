@@ -19,7 +19,9 @@
         if (!galleryContainer) return;
 
         try {
-            galleryContainer.innerHTML = '<p class="loading">Loading videos...</p>';
+            galleryContainer.innerHTML = typeof generateSkeletonCards === 'function'
+                ? generateSkeletonCards(6)
+                : '<p class="loading">Loading videos...</p>';
 
             await loadVideos();
             renderVideoGallery();
@@ -167,19 +169,32 @@
     function showVideoError(message) {
         const container = document.getElementById('video-gallery');
         if (container) {
-            container.innerHTML = `
-                <div class="error-message" style="text-align: center; padding: 2rem;">
-                    <p style="color: var(--neutral-700); margin-bottom: 1rem;">${message}</p>
-                    <button onclick="retryLoadVideos()" class="btn btn-primary btn-sm">Retry</button>
-                </div>
-            `;
+            container.innerHTML = '';
+            const wrapper = document.createElement('div');
+            wrapper.className = 'error-message';
+            wrapper.style.cssText = 'text-align: center; padding: 2rem;';
+
+            const p = document.createElement('p');
+            p.style.cssText = 'color: var(--neutral-700); margin-bottom: 1rem;';
+            p.textContent = message;
+
+            const btn = document.createElement('button');
+            btn.className = 'btn btn-primary btn-sm';
+            btn.textContent = 'Retry';
+            btn.addEventListener('click', retryLoadVideos);
+
+            wrapper.appendChild(p);
+            wrapper.appendChild(btn);
+            container.appendChild(wrapper);
         }
     }
 
     window.retryLoadVideos = async function() {
         const container = document.getElementById('video-gallery');
         if (container) {
-            container.innerHTML = '<p class="loading">Loading videos...</p>';
+            container.innerHTML = typeof generateSkeletonCards === 'function'
+                ? generateSkeletonCards(6)
+                : '<p class="loading">Loading videos...</p>';
         }
 
         try {

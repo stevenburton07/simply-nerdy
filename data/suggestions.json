@@ -1,0 +1,66 @@
+{
+  "_instructions": {
+    "description": "This file contains all suggestions for the Simply Nerdy website.",
+    "categories": ["Games", "Books", "Movies", "TV Shows", "Music"],
+    "genres": "Each suggestion must have a genre field. Genre names are freeform (e.g. Platformer, Sci-Fi, Horror, Comedy, Fantasy, Action, Drama, Thriller, RPG, Racers, etc.).",
+    "platformIcons": "Each platform entry needs: name, url, icon (one of: steam, playstation, xbox, nintendo, pc, epic, gog, amazon, kindle, audible, apple-books, barnes-noble, netflix, hulu, disney-plus, hbo-max, prime-video, apple-tv, paramount-plus, crunchyroll, spotify, apple-music, youtube-music, tidal, blu-ray, theaters, vudu, google-play)"
+  },
+  "suggestions": [
+    {
+      "id": "banjo-kazooie",
+      "title": "Banjo-Kazooie",
+      "category": "Games",
+      "genre": "Platformer",
+      "excerpt": "A timeless 3D platformer from Rare where a bear and bird duo take on a wicked witch. Vibrant worlds, unforgettable music, and pure 90s charm make this a must-play.",
+      "image": "/images/articles/banjo-kazooie.jpg",
+      "tags": ["platformer", "nintendo 64", "rare", "retro"],
+      "platforms": [
+        { "name": "Xbox", "url": "https://www.xbox.com/en-US/games/store/banjo-kazooie/9p4gh5gbn3bg", "icon": "xbox" },
+        { "name": "Nintendo Switch", "url": "https://www.nintendo.com/us/store/products/banjo-kazooie-switch/", "icon": "nintendo" }
+      ]
+    },
+    {
+      "id": "the-way-of-kings",
+      "title": "The Way of Kings",
+      "category": "Books",
+      "genre": "Fantasy",
+      "excerpt": "Brandon Sanderson's epic fantasy masterpiece that launches the Stormlight Archive. A sweeping tale of war, honor, and ancient magic on a world battered by devastating storms.",
+      "image": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&h=400&fit=crop",
+      "tags": ["fantasy", "brandon sanderson", "stormlight archive", "cosmere"],
+      "platforms": [
+        { "name": "Amazon", "url": "https://www.amazon.com/Way-Kings-Stormlight-Archive/dp/0765376679", "icon": "amazon" },
+        { "name": "Kindle", "url": "https://www.amazon.com/Way-Kings-Stormlight-Archive-ebook/dp/B003P2WO5E", "icon": "kindle" },
+        { "name": "Audible", "url": "https://www.audible.com/pd/The-Way-of-Kings-Audiobook/B003ZWFO7E", "icon": "audible" },
+        { "name": "Apple Books", "url": "https://books.apple.com/us/book/the-way-of-kings/id391251575", "icon": "apple-books" }
+      ]
+    },
+    {
+      "id": "the-dark-knight",
+      "title": "The Dark Knight",
+      "category": "Movies",
+      "genre": "Action",
+      "excerpt": "Christopher Nolan's genre-defining superhero film. Heath Ledger's Joker delivers one of cinema's greatest performances in this gripping tale of chaos vs. order in Gotham City.",
+      "image": "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=800&h=400&fit=crop",
+      "tags": ["batman", "christopher nolan", "dc", "thriller"],
+      "platforms": [
+        { "name": "Amazon Prime Video", "url": "https://www.amazon.com/Dark-Knight-Christian-Bale/dp/B001I189MK", "icon": "prime-video" },
+        { "name": "Apple TV", "url": "https://tv.apple.com/us/movie/the-dark-knight/umc.cmc.37ocdkyrqr7uk0w6egsmhex68", "icon": "apple-tv" },
+        { "name": "Blu-ray", "url": "https://www.amazon.com/Dark-Knight-Blu-ray-Christian-Bale/dp/B001GZ6QEC", "icon": "blu-ray" }
+      ]
+    },
+    {
+      "id": "breaking-bad",
+      "title": "Breaking Bad",
+      "category": "TV Shows",
+      "genre": "Drama",
+      "excerpt": "A high school chemistry teacher turned methamphetamine manufacturer in this gripping AMC series. Walter White's transformation remains one of television's greatest character arcs.",
+      "image": "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=800&h=400&fit=crop",
+      "tags": ["drama", "amc", "crime", "walter white"],
+      "platforms": [
+        { "name": "Netflix", "url": "https://www.netflix.com/title/70143836", "icon": "netflix" },
+        { "name": "Amazon Prime Video", "url": "https://www.amazon.com/Breaking-Bad-Season-1/dp/B001DJLCRC", "icon": "prime-video" },
+        { "name": "Apple TV", "url": "https://tv.apple.com/us/show/breaking-bad/umc.cmc.6grbhfmdlohnkr0me2n8ryc1x", "icon": "apple-tv" }
+      ]
+    }
+  ]
+}

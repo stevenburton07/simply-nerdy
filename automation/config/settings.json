@@ -5,7 +5,7 @@
   "articlesJsonPath": "../data/articles.json",
   "backupFolder": "../data/backups",
   "maxBackups": 10,
-  "claudeModel": "claude-sonnet-4-5",
+  "claudeModel": "claude-sonnet-4-6",
   "claudeMaxTokens": 4096,
   "claudeTemperature": 0.7,
   "retryAttempts": 3,

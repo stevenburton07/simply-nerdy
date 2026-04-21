@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
     <!-- Navigation -->
@@ -29,8 +30,9 @@
             <ul class="nav-links">
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="articles.html">Articles</a></li>
+                <li><a href="suggestions.html">Suggestions</a></li>
                 <li><a href="about.html">About</a></li>
-                <li><a href="https://youtube.com/@SimplyNerdy" target="_blank" class="btn-subscribe">Subscribe</a></li>
+                <li><a href="https://youtube.com/@SimplyNerdy" target="_blank" rel="noopener noreferrer" class="btn-subscribe">Subscribe</a></li>
             </ul>
         </nav>
     </header>
@@ -42,7 +44,7 @@
             <p class="hero-subtitle">Your hub for games, books, movies, and TV shows</p>
             <div class="hero-cta">
                 <a href="articles.html" class="btn btn-primary">Read Articles</a>
-                <a href="https://youtube.com/@SimplyNerdy" target="_blank" class="btn btn-secondary">Watch Videos</a>
+                <a href="https://youtube.com/@SimplyNerdy" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Watch Videos</a>
             </div>
         </div>
     </section>
@@ -52,7 +54,7 @@
         <div class="container">
             <div class="section-header">
                 <h2>Latest Videos</h2>
-                <a href="https://youtube.com/@SimplyNerdy" target="_blank" class="view-all">View All →</a>
+                <a href="https://youtube.com/@SimplyNerdy" target="_blank" rel="noopener noreferrer" class="view-all">View All →</a>
             </div>
             <div id="video-gallery" class="video-grid">
                 <!-- Videos will be loaded dynamically via JavaScript -->
@@ -84,6 +86,7 @@
 
     <!-- JavaScript -->
     <script src="js/utils.js"></script>
+    <script src="js/animations.js"></script>
     <script src="js/youtube-gallery.js"></script>
     <script src="js/articles-loader.js"></script>
     <script src="js/app.js"></script>

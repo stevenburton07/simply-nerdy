@@ -11,7 +11,7 @@
     const CACHE_KEY = 'simply_nerdy_videos_cache';
     const CACHE_DURATION = 30 * 60 * 1000;
 
-    const YOUTUBE_API_KEY = 'AIzaSyA2vZK7mrlIanWohdoLzqh15514fIgm9hI';
+    const YOUTUBE_API_KEY = '__YOUTUBE_API_KEY__';
     const YOUTUBE_CHANNEL_ID = 'UC6H7mlCEADjPd-ivSQt8ozg';
 
     async function initYouTubeGallery() {

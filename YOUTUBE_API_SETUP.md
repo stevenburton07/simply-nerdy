@@ -38,19 +38,17 @@ Follow these steps to get your YouTube API key and enable automatic video loadin
 - Choose: **"YouTube Data API v3"**
 - Click **"Save"**
 
-## Step 5: Add API Key to Your Website (30 seconds)
+## Step 5: Add API Key as a GitHub Secret (30 seconds)
 
-1. Open `js/youtube-gallery.js`
-2. Find this line:
-   ```javascript
-   const YOUTUBE_API_KEY = 'YOUR_YOUTUBE_API_KEY_HERE';
-   ```
-3. Replace with your actual API key:
-   ```javascript
-   const YOUTUBE_API_KEY = 'YOUR_ACTUAL_API_KEY_HERE';
-   ```
+The API key is stored as a GitHub Secret and injected during deployment. Do NOT hardcode it in `js/youtube-gallery.js`.
 
-4. Save the file
+1. Go to your GitHub repo **Settings** > **Secrets and variables** > **Actions**
+2. Click **New repository secret**
+3. Name: `YOUTUBE_API_KEY`
+4. Value: paste your API key
+5. Click **Add secret**
+
+The GitHub Actions workflow (`.github/workflows/deploy.yml`) automatically replaces the `__YOUTUBE_API_KEY__` placeholder in `js/youtube-gallery.js` with the secret value during deployment.
 
 ## Step 6: Test It! (10 seconds)
 
@@ -92,7 +90,7 @@ If you exceed the limit:
 ### "YouTube API key not configured"
 **Problem**: API key still has placeholder value
 
-**Solution**: Replace `YOUR_YOUTUBE_API_KEY_HERE` with your actual key
+**Solution**: Ensure the `YOUTUBE_API_KEY` secret is set in GitHub repo Settings > Secrets and variables > Actions, then re-deploy
 
 ### Videos still not loading
 **Solution**:
@@ -113,11 +111,13 @@ YouTube Data API v3 free tier includes:
 ## Security Best Practices
 
 ✅ **DO**:
-- Restrict API key to your domain
+- Store the API key as a GitHub Secret (never hardcode in source)
+- Restrict API key to your domain in Google Cloud Console
 - Restrict to YouTube Data API v3 only
-- Keep API key in version control (it's meant to be public for client-side use)
+- Rotate the key if it was ever exposed in git history
 
 ❌ **DON'T**:
+- Hardcode the API key in source code
 - Share your API key publicly in forums
 - Use the same key for multiple projects
 - Use a service account key (use API key instead)
@@ -125,7 +125,7 @@ YouTube Data API v3 free tier includes:
 ## Alternative: Keep Using Backup JSON
 
 If you don't want to set up the API:
-1. Leave `YOUTUBE_API_KEY` as `'YOUR_YOUTUBE_API_KEY_HERE'`
+1. Don't set the `YOUTUBE_API_KEY` secret (the placeholder will remain)
 2. Manually update `data/videos.json` with your video IDs
 3. Videos will load from your backup file
 

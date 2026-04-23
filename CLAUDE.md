@@ -64,4 +64,8 @@ Each article in `data/articles.json` has: `id`, `title`, `slug`, `date` (YYYY-MM
 
 ## Deployment
 
-Frontend deploys automatically via GitHub Pages from the `main` branch (root folder). The `CNAME` file configures the custom domain. Automation runs separately (local machine or server).
+Frontend deploys via GitHub Actions (`.github/workflows/deploy.yml`). On push to `main`, the workflow injects the `YOUTUBE_API_KEY` secret into `js/youtube-gallery.js` (replacing the `__YOUTUBE_API_KEY__` placeholder) and deploys to GitHub Pages. The `CNAME` file configures the custom domain.
+
+The `YOUTUBE_API_KEY` repository secret must be set in GitHub repo Settings > Secrets and variables > Actions. For local development, temporarily replace the placeholder with the real key but never commit it.
+
+Automation runs separately (local machine or server).
